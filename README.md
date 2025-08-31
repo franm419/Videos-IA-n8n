@@ -49,16 +49,6 @@ Videos-IA-n8n/
 - Creatomate API Key  
 - Google Sheets & Drive credentials (for integration)
 
-> ⚠️ Credentials should never be uploaded to the repo. Configure them securely in **n8n**.
-
----
-
-## 📊 Example Workflow
-
-Below is a high-level view of the workflow execution:
-
-![Workflow](workflow.png)
-
 ---
 
 ## 👨‍💻 Author
@@ -67,4 +57,5 @@ Francisco Moyano Escalera
 Specialist in Data, AI & Automation  
 📧 frannmmm419@gmail.com  
 🌐 GitHub: [franm419](https://github.com/franm419)
+
 
