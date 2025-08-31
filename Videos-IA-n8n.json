@@ -1,0 +1,1019 @@
+{
+  "name": "My workflow 15",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2928,
+        -288
+      ],
+      "id": "864db886-b8ad-45b1-bf1d-b4453fd4c8ee",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc",
+          "mode": "list",
+          "cachedResultName": "Tabla_Cafe",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ESTADO",
+              "lookupValue": "PENDIENTE"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -2720,
+        -288
+      ],
+      "id": "0f8d57e1-0cfe-4f43-9898-d6115ff77beb",
+      "name": "Obtener Ideas",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "G5MZDgZeRIwc0CPD",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Genera una idea viral para un video en primera persona donde alguien toma café en un lugar icónico y en una época histórica específica:\nLugar: {{ $json.lugar }}\nÉpoca: {{ $json.epoca }}\n\nTu respuesta debe ser siempre en formato JSON (sin ninguna explicación) y con las siguientes claves:  \n- lugar: nombre del lugar histórico proporcionado  \n- epoca: periodo histórico correspondiente\n- escenario: momento visual atractivo que describa la acción de tomar café (máximo 20 palabras)\n- texto_video1: una frase que empiece con “Tomando un café en [lugar], preguntándome si...”\n- texto_video2: reflexión breve, humorística o irónica que completa la oración iniciada en [texto_video1]\n- ambiente_visual: descripción breve (máximo 10 palabras) del entorno: arquitectura, luz, atmósfera o detalles culturales\n\nIndicaciones:\n- La escena debe estar en primera persona: solo se ven manos, piernas o taza.  \n- Describe momentos sensoriales, atmosféricos y visuales relacionados con tomar café.  \n- El entorno debe ser el protagonista: describe su belleza, historia o ambiente.  \n- Puedes incluir detalles femeninos sutiles (manos delicadas, uñas pintadas, movimientos elegantes).  \n- Se aceptan lugares futuristas o imaginarios si tienen coherencia estética.\n- El texto total no debe superar los 500 caracteres.\n– El texto_video1 debe seguir el formato exacto: \"Tomando café en [lugar], preguntándome si...\"\n– El texto_video2 debe completar la oración con una idea ingeniosa, ligera o irónica.\n\n\nEjemplo de entrada:\nlugar: Kioto, Japón  \nepoca: Periodo Edo, siglo XVIII\n\nEjemplo de salida:\n{\n  \"lugar\": \"Kioto, Japón\",\n  \"epoca\": \"Siglo XVIII, periodo Edo\",\n  \"escenario\": \"Levanto la taza mientras caen hojas de cerezo sobre el tatami\",\n  \"texto_video1\": \"Tomando un café en Kioto durante el periodo Edo, preguntándome si...\",\n  \"texto_video2\": \"los samuráis también necesitaban su dosis de cafeína\",\n  \"ambiente_visual\": \"pabellones de madera, sakura, bruma matinal, calma tradicional\"\n}\n\nEjemplo de entrada:\nlugar: Granada, España\nepoca: Finales del siglo XV, época nazarí\n\n{\n  \"lugar\": \"Granada, España\",\n  \"epoca\": \"Finales del siglo XV, época nazarí\",\n  \"escenario\": \"Tomo un sorbo mientras la luz dorada entra por los arcos de la Alhambra\",\n  \"texto_video1\": \"Tomando un café en la Granada nazarí, bajo los arcos de la Alhambra, preguntándome si...\",\n  \"texto_video2\": \"ya servían café antes de que llegaran los Reyes Católicos\",\n  \"ambiente_visual\": \"yeserías detalladas, luz cálida, columnas moriscas, ecos de agua\"\n}\n\nEjemplo de entrada:\nlugar: \"Versalles, Francia\"\nepoca: \"durante el apogeo de la monarquía francesa a finales del siglo XVIII\"\n\n{\n  \"lugar\": \"Versalles, Francia\",\n  \"época\": \"Finales del 1700, Monarquía Francesa\",\n  \"escenario\": \"Levantando una taza de porcelana mientras se está sentado en un balcón dorado\",\n  \"texto_video1\": \"Tomando café en Versalles, preguntándome si...\",\n  \"texto_video2\": \"alguna vez lo derramaron sobre esas pelucas elegantes\",\n  \"entorno_descripción\": \"luz dorada, cortinas de terciopelo, candelabros, jardines cuidados\"\n}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -1008,
+        -256
+      ],
+      "id": "84e80ecb-bc4b-4fd9-ab0b-7d5ff93a2116",
+      "name": "Generador Caracteristicas"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1104,
+        -48
+      ],
+      "id": "f0363bd8-a4a1-4105-80a3-d12c9cb30951",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "JNWGrttJyTepHvLV",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"lugar\": \"Granada, España\",\n  \"epoca\": \"Finales del siglo XV, época nazarí\",\n  \"escenario\": \"Tomo un sorbo mientras la luz dorada entra por los arcos de la Alhambra\",\n  \"texto_video1\": \"Tomando un café en la Granada nazarí, bajo los arcos de la Alhambra, preguntándome si...\",\n  \"texto_video2\": \"ya servían café antes de que llegaran los Reyes Católicos\",\n  \"ambiente_visual\": \"yeserías detalladas, luz cálida, columnas moriscas, ecos de agua\"\n}",
+        "autoFix": "={{ false }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -768,
+        -48
+      ],
+      "id": "bf55544c-b534-4f21-a8f3-2688f1dea5f2",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "batchSize": "=1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -2080,
+        -544
+      ],
+      "id": "c0284885-0df5-4bf1-8d7f-0eef706335f5",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Eres una IA experta en generar prompts visuales hiperrealistas para modelos de imagen como MidJourney o Flux. Tu tarea es transformar una escena estructurada en una imagen envolvente y cinematográfica, en primera persona, donde el espectador aparece tomando café en un lugar histórico o imaginario.\n\nEsta es la ubicación: {{ $('Generador Caracteristicas').item.json.output.lugar }}  \nEsta es la época: {{ $('Generador Caracteristicas').item.json.output.epoca }}  \nEsta es la idea general: {{ $('Generador Caracteristicas').item.json.output.escenario }}  \nEsta es la descripción del entorno: {{ $('Generador Caracteristicas').item.json.output.ambiente_visual }}\n\nTu prompt final debe tener dos partes, en texto plano:\n\n1. Inicia con una frase que combine todos los elementos: {{ $('Generador Caracteristicas').item.json.output.lugar }}, {{ $('Generador Caracteristicas').item.json.output.epoca }}, {{ $('Generador Caracteristicas').item.json.output.escenario }}, {{ $('Generador Caracteristicas').item.json.output.ambiente_visual }}.\n\n2. Luego describe la escena visualmente en primera persona:  \n- En primer plano: manos, piernas, o taza (no mostrar rostros ni cuerpos completos)  \n- Al fondo: arquitectura, naturaleza o elementos ambientales según época y lugar\n\nReglas clave:\n- Describir desde el punto de vista del espectador (como si mirara con sus propios ojos)  \n- Solo sugerir presencia humana con manos, piernas o sombras sutiles  \n- Enfatizar luz, atmósfera, materiales y estilo cultural del lugar  \n- Puedes sugerir feminidad con detalles como \"manos delicadas\" o \"uñas pintadas\"\n- El prompt no debe superar los 500 caracteres\n- No uses símbolos ni carácteres especiales (solo texto plano limpio)\n- No uses saltos de línia. Todo debe ir en un mismo párrafo.\n\n\nEjemplos:\nInput: Granada, España, finales del siglo XV, época nazarí. Tomo un sorbo mientras la luz dorada entra por los arcos de la Alhambra.\nOutput:\nEn primer plano, manos elegantes sostienen una taza ornamentada sobre un alféizar de piedra tallada. Al fondo, columnas moriscas y arabescos iluminados por el sol del atardecer.\n\nInput: Montañas de los Alpes suizos, invierno de 1850. El vapor de mi taza se mezcla con la niebla matinal.  \nOutput: En primer plano, manos con guantes sostienen una taza metálica sobre una manta de lana gruesa. Al fondo, cabañas de madera y cumbres nevadas entre nubes bajas."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -720,
+        -768
+      ],
+      "id": "52bb1a34-9b5f-4fd1-96f2-7399b1c36db8",
+      "name": "Generar Prompt Imagen",
+      "credentials": {
+        "openAiApi": {
+          "id": "JNWGrttJyTepHvLV",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Eres una IA especializada en generar prompts para modelos de música como los de ElevenLabs. Tu tarea es crear una descripción breve, clara y evocadora que sirva como guía para generar una pieza instrumental breve que acompañe una escena cinematográfica de alguien tomando café en un entorno especial.\n\nInstrucciones:\n– El resultado debe ser música instrumental de fondo, sin efectos de sonido ni ruido ambiental (nada de pasos, viento, multitudes, etc.)\n– El estilo musical debe coincidir con la emoción, la atmósfera y la época del escenario descrito\n– Menciona instrumentos, ritmo y estilo musical (ejemplo: cuerdas suaves, piano lento, tempo relajado)\n– No menciones el café ni describas acciones, solo la música\n– Máximo 300 caracteres\n– Evita términos genéricos como \"mágico\" o \"fantástico\" salvo que sean apropiados para el contexto\n\nEntrada:  \n{{ $json.message.content }}\n\nFormato de salida (ejemplo):  \n\"Música instrumental suave con piano lento y cuerdas cálidas, estilo clásico, tempo tranquilo, atmósfera melancólica y nostálgica\"\n\n\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -336,
+        -768
+      ],
+      "id": "454b0a87-4c4f-4418-944e-ddee1d79fab5",
+      "name": "Generar Prompt Audio",
+      "credentials": {
+        "openAiApi": {
+          "id": "JNWGrttJyTepHvLV",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/sound-generation",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "AAAA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.message.content }}"
+            },
+            {
+              "name": "duration_seconds",
+              "value": "7"
+            },
+            {
+              "name": "prompt_influence",
+              "value": "0.75"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        144,
+        -768
+      ],
+      "id": "98b16df7-9900-4cd7-a199-16ced5999336",
+      "name": "Crear Audio ElevenLabs"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Generador Caracteristicas').item.json.output.lugar }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1n17wsx1dayM47LzIeQQP8p1-VnvGRulE",
+          "mode": "list",
+          "cachedResultName": "Audio",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1n17wsx1dayM47LzIeQQP8p1-VnvGRulE"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        480,
+        -768
+      ],
+      "id": "f1f59157-f7a7-42ca-83e1-e9f839b04a8e",
+      "name": "Guardar Audio",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cM6PX6qDq5vC3M5b",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/models/black-forest-labs/flux-1.1-pro/predictions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AAAA"
+            },
+            {
+              "name": "Prefer",
+              "value": "wait"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {\n    \"prompt\": \"{{ $('Generar Prompt Imagen').item.json.message.content }}\",\n    \"aspect_ratio\": \"9:16\",\n    \"output_format\": \"png\"    \n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        -496
+      ],
+      "id": "fd299226-6b49-4f36-88a3-94344cba9b1b",
+      "name": "Generar Imagen"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.creatomate.com/v1/renders",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer AAAA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"template_id\": \"5f375b07-6fb7-4767-be4e-5fa40be9ea0e\",\n  \"modifications\": {\n    \"Background.source\": \"{{ $json.output }}\",\n    \"Text-1.text\": \"{{ $('Generador Caracteristicas').item.json.output.texto_video1 }}\",\n    \"Text-2.text\": \"{{ $('Generador Caracteristicas').item.json.output.texto_video2 }}\",\n    \"Audio-1.source\": \"{{ $('Guardar Audio').item.json.webContentLink }}\"\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        272,
+        -496
+      ],
+      "id": "44b028ee-ec61-4828-b1e9-c7ea9583c0d7",
+      "name": "Renderizar Video"
+    },
+    {
+      "parameters": {
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "writer",
+            "type": "anyone",
+            "allowFileDiscovery": true
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        720,
+        -768
+      ],
+      "id": "5470eb3c-4eb5-4dbb-9365-a2e9233155fd",
+      "name": "Compartir Archivo",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cM6PX6qDq5vC3M5b",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Generador Caracteristicas').item.json.output.lugar }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1GUMneQBlpdODnGyMYqCzhl69SO8RNAU2",
+          "mode": "list",
+          "cachedResultName": "Videos",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1GUMneQBlpdODnGyMYqCzhl69SO8RNAU2"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1072,
+        -496
+      ],
+      "id": "8f858676-4f59-46f8-829a-90e0bdd7b85d",
+      "name": "Guardar Video Resultado",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cM6PX6qDq5vC3M5b",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        -496
+      ],
+      "id": "b25c2669-ec71-4859-b3b5-184f60a1a21b",
+      "name": "Espera 1 Minuto",
+      "webhookId": "380054ce-9161-41f4-8a53-a82f8ac2eb59"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Renderizar Video').item.json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        848,
+        -496
+      ],
+      "id": "c2aac128-5581-4e4d-a61a-776a13b38c44",
+      "name": "Descargar Video Render de URL"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc",
+          "mode": "list",
+          "cachedResultName": "Tabla_Cafe",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1306766767,
+          "mode": "list",
+          "cachedResultName": "ListadoPublicaciones",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc/edit#gid=1306766767"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "LUGAR": "={{ $('Generador Caracteristicas').item.json.output.lugar }}",
+            "VIDEO_URL": "={{ $('Renderizar Video').item.json.url }}",
+            "ESTADO_PUBLICACION": "PENDIENTE",
+            "ESCENARIO": "={{ $('Generador Caracteristicas').item.json.output.escenario }}",
+            "TEXTO1": "={{ $('Generador Caracteristicas').item.json.output.texto_video1 }}",
+            "TEXTO2": "={{ $('Generador Caracteristicas').item.json.output.texto_video2 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "LUGAR",
+              "displayName": "LUGAR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "VIDEO_URL",
+              "displayName": "VIDEO_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ESTADO_PUBLICACION",
+              "displayName": "ESTADO_PUBLICACION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ESCENARIO",
+              "displayName": "ESCENARIO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TEXTO1",
+              "displayName": "TEXTO1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "TEXTO2",
+              "displayName": "TEXTO2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1280,
+        -496
+      ],
+      "id": "3fac8355-33c8-4e1d-86ff-46aff64ec584",
+      "name": "Agregar Tabla Revision",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "G5MZDgZeRIwc0CPD",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9ad3e8b4-ce1c-4d1e-91d4-9b1bf4ce2d0b",
+              "leftValue": "={{ $json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2480,
+        -288
+      ],
+      "id": "e09dd7e0-a4b3-4edc-9e9e-86ef2822d8be",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Genera el nombre de un lugar histórico famoso y la época por la que es más conocido.\nEnfócate en entornos inmersivos, visualmente atractivos y adecuados para la narración de historias. Se permite incluir lugares imaginarios, futuristas o de ensueño.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Eres un asistente creativo inteligente y servicial. Tu tarea es generar escenarios visualmente ricos e inmersivos para la narrativa cinematográfica. Genera tus datos en el siguiente formato JSON:\n{\n   \"lugar\": \"nombre de la ubicación\",\n   \"epoca\": \"período histórico, era futura o concepto surrealista\"\n}"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -2160,
+        -80
+      ],
+      "id": "da0ae809-bb8b-4582-ba2c-eee8e5b2522c",
+      "name": "Generar Idea"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"lugar\": \"Kioto, Japón\",\n  \"epoca\": \"Siglo XVIII, periodo Edo\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -2000,
+        144
+      ],
+      "id": "056d602f-b122-4c2d-94e4-2a9321383be3",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2208,
+        144
+      ],
+      "id": "bbecfaa1-a612-4ab8-9d14-de539be7605a",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "JNWGrttJyTepHvLV",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"lugar\": \"{{ $json.output.lugar }}\",\n  \"epoca\": \"{{ $json.output.epoca }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1760,
+        -80
+      ],
+      "id": "d57fab29-bcaf-48d1-903b-22a8a5290496",
+      "name": "Guardar Valor Variable - 1"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"lugar\": \"{{ $('Loop Over Items').item.json.LUGAR }}\",\n  \"epoca\": \"{{ $('Loop Over Items').item.json.EPOCA }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1504,
+        -496
+      ],
+      "id": "70edb400-f4f3-441f-95a5-f8c0708f857f",
+      "name": "Guardar Valor Variable"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc",
+          "mode": "list",
+          "cachedResultName": "Tabla_Cafe",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vQIkG8pisYgp2FmC99gw04Vu8sLWRR2IvRonu-3_0pc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ESTADO": "GENERADO",
+            "row_number": "={{ $('Obtener Ideas').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "LUGAR",
+              "displayName": "LUGAR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "EPOCA",
+              "displayName": "EPOCA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ESTADO",
+              "displayName": "ESTADO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -1760,
+        -528
+      ],
+      "id": "1b128236-7098-4543-b3b6-8c72c886cc6b",
+      "name": "Actualizar Estado Idea1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "G5MZDgZeRIwc0CPD",
+          "name": "Google Sheets account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Obtener Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Ideas": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generador Caracteristicas",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generador Caracteristicas",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Actualizar Estado Idea1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generador Caracteristicas": {
+      "main": [
+        [
+          {
+            "node": "Generar Prompt Imagen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Prompt Imagen": {
+      "main": [
+        [
+          {
+            "node": "Generar Prompt Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Prompt Audio": {
+      "main": [
+        [
+          {
+            "node": "Crear Audio ElevenLabs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear Audio ElevenLabs": {
+      "main": [
+        [
+          {
+            "node": "Guardar Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Audio": {
+      "main": [
+        [
+          {
+            "node": "Compartir Archivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Imagen": {
+      "main": [
+        [
+          {
+            "node": "Renderizar Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renderizar Video": {
+      "main": [
+        [
+          {
+            "node": "Espera 1 Minuto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compartir Archivo": {
+      "main": [
+        [
+          {
+            "node": "Generar Imagen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Video Resultado": {
+      "main": [
+        [
+          {
+            "node": "Agregar Tabla Revision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espera 1 Minuto": {
+      "main": [
+        [
+          {
+            "node": "Descargar Video Render de URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descargar Video Render de URL": {
+      "main": [
+        [
+          {
+            "node": "Guardar Video Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agregar Tabla Revision": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generar Idea",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generar Idea",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generar Idea",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Idea": {
+      "main": [
+        [
+          {
+            "node": "Guardar Valor Variable - 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Valor Variable - 1": {
+      "main": [
+        [
+          {
+            "node": "Generador Caracteristicas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Valor Variable": {
+      "main": [
+        [
+          {
+            "node": "Generador Caracteristicas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar Estado Idea1": {
+      "main": [
+        [
+          {
+            "node": "Guardar Valor Variable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "26dfb8fde3090b2e8fe2b0401e155a3250fdeddf332a64bed39d0e18bc329f29"
+  },
+  "tags": []
+}
